@@ -1,0 +1,17 @@
+---
+- name: Boot baremetal to desired state
+  hosts: localhost
+  vars_files:
+    - vars/vars.yml
+  vars:
+    state: present
+
+  roles:
+    - 010-flavor
+    - 011-flavor-capabilities
+    - 012-port
+    - 012-port-facts
+    - 013-instance
+    - 014-check-state
+    - 015-inventory
+

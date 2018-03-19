@@ -1,0 +1,19 @@
+---
+# tasks file for 010-create-flavor
+  - name: Ensure flavor for baremetal deployment is "{{ state }}"
+    os_nova_flavor:
+       auth:
+         auth_url: "{{ os_auth }}"
+         username: "{{ admin_name }}"
+         password: "{{ admin_password }}"
+         project_name: "{{ admin_name }}"
+       state: "{{ state }}"
+       name: "baremetal-{{ memory }}{{ cpu }}{{ system }}-{{ test_name }}"
+       ram: 1024
+       vcpus: 1
+       disk: 10
+       validate_certs: False
+       extra_specs: 
+         "baremetal": "true"
+
+

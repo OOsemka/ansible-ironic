@@ -1,0 +1,14 @@
+---
+  - name: Re-learn BM network port
+    os_port_facts:
+       auth:
+         auth_url: "{{ os_auth }}"
+         username: "{{ project_name }}"
+         password: "{{ project_password }}"
+         project_name: "{{ project_name }}"
+       port: "port-{{ memory }}{{ cpu }}{{ system }}-{{ test_name }}" 
+       validate_certs: False
+    register: bm_port
+
+  - debug:
+       var: bm_port

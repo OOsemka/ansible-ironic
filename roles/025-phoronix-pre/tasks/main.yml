@@ -1,0 +1,55 @@
+---
+- name: install pre-reqs for phoronix - RHEL
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - php-cli
+    - php-xml
+    - gcc
+    - gcc-c++
+    - make
+    - autoconf
+    - automake
+    - glibc-static
+    - patch
+    - unzip
+  when: image == 'rhel7-bm'
+
+
+- name: install pre-reqs for phoronix - ubuntu
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - php-cli
+    - php-xml
+    - gcc
+    - make
+    - autoconf
+    - automake
+    - patch
+    - unzip
+  when: image == 'ubuntu-bm'
+
+
+- name: install pre-reqs for phoronix - opensuse
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - php-xml
+    - php5-dom
+    - php5-zip
+    - php5-json
+    - gcc
+    - gcc-c++
+    - Mesa-demo-x
+    - make
+    - autoconf
+    - automake
+    - patch
+    - unzip
+    - dmidecode
+  when: image == 'opensuse-bm'
+

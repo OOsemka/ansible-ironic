@@ -1,0 +1,58 @@
+---
+
+#- name: install pre-reqs for phoronix
+#  package:
+#    name: "{{ item }}"
+#    state: present
+#  with_items:
+#    - php-cli
+#    - php-xml
+#    - gcc
+#    - gcc-c++
+#    - make
+#    - autoconf
+#    - automake
+#    - glibc-static
+#    - patch
+#    - unzip
+
+- name: create .phoronix-test-suite in home directory
+  file:
+    path: ~/.phoronix-test-suite
+    state: directory
+    mode: 0755
+
+- name: copy user-config.xml fo unattended mode
+  copy:
+    src: files/user-config.xml
+    dest: ~/.phoronix-test-suite/    
+
+#- name: copy phoronix-test-suite-7.8.0.tar.gz to local directory
+#  copy:
+#    src: files/phoronix-test-suite-7.8.0.tar.gz
+#    dest: ~/
+
+- name: extract phoronix
+  unarchive:
+    src: files/phoronix-test-suite-7.8.0.tar.gz
+    dest: ~/
+
+- name: install phoronix
+  shell: "cd ~/phoronix-test-suite && sudo ./install-sh"
+
+- name: execute phoronix in enterprise-setup to avoid license agreement question
+  shell: phoronix-test-suite enterprise-setup
+
+- name: install phoronix test
+  shell: phoronix-test-suite install "{{ phoronix_test }}"
+
+- name: execute phoronix test
+  shell: phoronix-test-suite batch-run "{{ phoronix_test }}"
+  register: phoronix_results
+
+- name: display results
+  debug:
+    var: phoronix_results
+
+
+    

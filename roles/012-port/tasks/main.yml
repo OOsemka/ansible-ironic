@@ -1,0 +1,12 @@
+---
+  - name: Ensure port on "{{ baremetal_network }}" network is "{{ state }}"
+    os_port:
+       auth:
+         auth_url: "{{ os_auth }}"
+         username: "{{ project_name }}"
+         password: "{{ project_password }}"
+         project_name: "{{ project_name }}"
+       state: "{{ state }}"
+       name: "port-{{ memory }}{{ cpu }}{{ system }}-{{ test_name }}" 
+       network: "{{ baremetal_network }}"
+       validate_certs: False

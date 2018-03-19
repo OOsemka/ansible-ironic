@@ -1,0 +1,10 @@
+---
+
+- name: add baremetal to ansible inventory - RedHat
+  add_host:
+     name: baremetal
+     groups: openstack
+     ansible_host: "{{bm_port.ansible_facts.openstack_ports.0.fixed_ips.0.ip_address}}"
+     ansible_user: "{{ cloud_user }}"
+     ansible_become: yes
+

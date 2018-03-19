@@ -1,0 +1,8 @@
+---
+  - name: set the flavor with the right hw capabilities
+    shell: openstack --os-auth-url "{{ os_auth }}" --os-project-name "{{ admin_name }}" --os-username "{{ admin_name }}" --os-password "{{ admin_password }}" --insecure flavor set --property "{{ item.name }}"="{{ item.value }}" "baremetal-{{ memory }}{{ cpu }}{{ system }}-{{ test_name }}"
+    with_items:
+      - { name: "capabilities:memory", value: "{{ memory }}" }
+      - { name: "capabilities:cpu", value: "{{ cpu }}" }
+      - { name: "capabilities:system", value: "{{ system }}" }
+    when: item.value != None

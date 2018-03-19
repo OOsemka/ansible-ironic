@@ -1,0 +1,10 @@
+---
+
+- name: copy repo file
+  copy:
+    src: files/local.repo
+    dest: /etc/yum.repos.d/local.repo
+  when: image == 'rhel7-bm'
+
+- name: set the mtu to 1500
+  shell: "ip link set mtu 1500 dev eth0"

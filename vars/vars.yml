@@ -1,0 +1,8 @@
+---
+admin_name: admin
+admin_password: 
+os_auth: https://openstack.home.lab:13000/v2.0
+project_name: 
+project_password: 
+keypair: awx
+baremetal_network: baremetal
