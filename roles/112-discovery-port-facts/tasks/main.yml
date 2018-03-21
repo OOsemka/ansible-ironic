@@ -1,0 +1,15 @@
+---
+  - name: Re-learn BM network port for discovery
+    os_port_facts:
+       auth:
+         auth_url: "{{ os_auth }}"
+         username: "{{ discovery_project }}"
+         password: "{{ discovery_password }}"
+         project_name: "{{ discovery_project }}"
+       port: "discovery-{{ item }}" 
+       validate_certs: False
+    with_items: "{{ ironic_nodes.stdout_lines }}"
+    register: discovery_port
+
+  - debug:
+       var: discovery_port

@@ -1,0 +1,13 @@
+---
+  - name: Ensure port for discovery on "{{ baremetal_network }}" network is "{{ state }}"
+    os_port:
+       auth:
+         auth_url: "{{ os_auth }}"
+         username: "{{ discovery_project }}"
+         password: "{{ discovery_password }}"
+         project_name: "{{ discovery_project }}"
+       state: "{{ state }}"
+       name: "discovery-{{ item }}" 
+       network: "{{ baremetal_network }}"
+       validate_certs: False
+    with_items: "{{ ironic_nodes.stdout_lines }}"

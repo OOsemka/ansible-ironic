@@ -1,0 +1,28 @@
+---
+  - name: Ensure instances are "{{ state }}" for discovery
+    os_server:
+       auth:
+         auth_url: "{{ os_auth }}"
+         username: "{{ discovery_project }}"
+         password: "{{ discovery_password }}"
+         project_name: "{{ discovery_project }}"
+       state: "{{ state }}"
+       name: "discovery-{{ item }}"
+       image: "{{ discovery_image }}"
+       key_name: "{{ keypair }}"
+       flavor: "discovery-{{ item }}"
+       #auto_ip: no
+       security_groups: default
+       validate_certs: False
+       timeout: 600
+       nics:
+         - port-name: "discovery-{{ item }}"
+    async: 7200
+    poll: 0
+    with_items: "{{ ironic_nodes.stdout_lines }}"
+
+
+  #- pause:
+  #     minutes: 1
+
+

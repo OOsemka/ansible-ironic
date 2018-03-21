@@ -1,0 +1,37 @@
+---
+
+- name: dump all the uniq capabilities to a file
+  shell: >
+     for i in 
+     `openstack --os-auth-url "{{ os_auth }}" --os-project-name "{{ admin_name }}" --os-username "{{ admin_name }}" --os-password "{{ admin_password }}" --insecure
+     baremetal node list | grep -v UUID | awk {'print $2'}`; 
+     do 
+     openstack --os-auth-url "{{ os_auth }}" --os-project-name "{{ admin_name }}" --os-username "{{ admin_name }}" --os-password "{{ admin_password }}" --insecure
+     baremetal node show $i --format yaml | grep capabilities | sed 's/  capabilities: //g' | sed 's/,/\n/g'; 
+     done | sort | uniq > files/all-capabilities.txt
+
+- name: register all capabilities
+  shell: awk -F  ":" '/{{ item }}:/ {print $2}' files/all-capabilities.txt
+  with_items:
+    - ironic_uuid
+    - cpu
+    - memory 
+    - system
+  register: capabilities
+  tags:
+    - jinja
+
+- debug:
+    var: capabilities
+
+- name: create a json file for ansible form
+  template:
+    src: files/phoronix-survey.json.j2
+    dest: files/phoronix-survey-updated.json
+  tags:
+    - jinja
+
+- name: import updated workload form back to Tower
+  shell: tower-cli workflow modify 35 --survey-spec=@files/phoronix-survey-updated.json
+  tags:
+     - form_import

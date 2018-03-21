@@ -1,0 +1,96 @@
+{
+  "description": "", 
+  "name": "", 
+  "spec": [
+    {
+      "question_description": "", 
+      "min": 0, 
+      "default": "", 
+      "max": 1024, 
+      "required": true, 
+      "choices": "", 
+      "variable": "test_name", 
+      "question_name": "Unique Name of the test", 
+      "type": "text"
+    }, 
+    {
+      "question_description": "", 
+      "min": null, 
+      "default": "rhel7-bm", 
+      "max": null, 
+      "required": true, 
+      "choices": "rhel7-bm\nubuntu-bm\nopensuse-bm", 
+      "new_question": true, 
+      "variable": "image", 
+      "question_name": "Operating system", 
+      "type": "multiplechoice"
+    }, 
+    {
+      "required": true, 
+      "min": null, 
+      "default": "", 
+      "max": null, 
+      "question_description": "rhel7 (cloud-user); ubuntu (ubuntu); opensuse (opensuse )", 
+      "choices": "cloud-user\nubuntu\nopensuse", 
+      "variable": "cloud_user", 
+      "question_name": "Cloud User name for the OS", 
+      "type": "multiplechoice"
+    }, 
+    {
+      "question_description": "", 
+      "min": 0, 
+      "default": "chess", 
+      "max": 1024, 
+      "required": true, 
+      "choices": "", 
+      "new_question": true, 
+      "variable": "phoronix_test", 
+      "question_name": "Phoronix test to run", 
+      "type": "text"
+    }, 
+    {
+      "question_description": "Select hardware with certain memory speed", 
+      "min": null, 
+      "default": "", 
+      "max": null, 
+      "required": false, 
+      "choices": "1333MHz", 
+      "variable": "memory", 
+      "question_name": "Memory Speed", 
+      "type": "multiplechoice"
+    }, 
+    {
+      "question_description": "Select hardware with certain cpu type", 
+      "min": null, 
+      "default": "", 
+      "max": null, 
+      "required": false, 
+      "choices": "IntelCeleronCPUJ1900@1.99GHz", 
+      "variable": "cpu", 
+      "question_name": "CPU Type", 
+      "type": "multiplechoice"
+    }, 
+    {
+      "question_description": "Select system Type", 
+      "min": null, 
+      "default": "", 
+      "max": null, 
+      "required": false, 
+      "choices": "ASRockJ1900D2Y", 
+      "variable": "system", 
+      "question_name": "System Type", 
+      "type": "multiplechoice"
+    }, 
+    {
+      "question_description": "uuid used by ironic to identify nodes", 
+      "min": null, 
+      "default": "", 
+      "max": null, 
+      "required": false, 
+      "choices": "22d9f6a1-0a70-4ead-ac88-f77218bc2124\n8fcbd529-c726-4af5-9919-f5a26200ab21\nbaca2cce-5618-49a3-be9a-de6b9c81f16f",
+      "variable": "ironic_uuid", 
+      "question_name": "Node uuid", 
+      "type": "multiplechoice"
+    }
+  ]
+}

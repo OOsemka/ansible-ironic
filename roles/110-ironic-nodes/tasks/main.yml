@@ -1,0 +1,12 @@
+---
+# tasks file for 010-create-flavor
+  - name: Gather information about ironic nodes
+    shell: openstack --os-auth-url "{{ os_auth }}" --os-project-name "{{ admin_name }}" --os-username "{{ admin_name }}" --os-password "{{ admin_password }}" --insecure baremetal node list | awk '!/UUID/ && !/+/ {print $2}' 
+    register: ironic_nodes
+
+  - debug:
+       msg: "{{ ironic_nodes.stdout_lines }}"
+
+#  - debug:
+#       msg: "list item: {{ item }}"
+#    with_items: "{{ ironic_nodes.stdout_lines }}"

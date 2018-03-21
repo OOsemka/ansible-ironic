@@ -5,4 +5,5 @@
       - { name: "capabilities:memory", value: "{{ memory }}" }
       - { name: "capabilities:cpu", value: "{{ cpu }}" }
       - { name: "capabilities:system", value: "{{ system }}" }
+      - { name: "capabilities:ironic_uuid", value: "{{ ironic_uuid }}" }
     when: item.value != None

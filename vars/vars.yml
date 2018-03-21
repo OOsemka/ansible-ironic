@@ -1,8 +1,12 @@
 ---
 admin_name: admin
-admin_password: 
+admin_password: changeme
 os_auth: https://openstack.home.lab:13000/v2.0
-project_name: 
-project_password: 
+project_name: amd
+project_password: changeme
 keypair: awx
 baremetal_network: baremetal
+discovery_project: discovery
+discovery_password: changeme
+discovery_image: rhel7-bm
+discovery_cloud_user: cloud-user

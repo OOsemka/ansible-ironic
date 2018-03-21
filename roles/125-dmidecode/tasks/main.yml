@@ -1,0 +1,44 @@
+---
+- name: check my ironic uuid
+  shell: hostname | sed 's/discovery-//'
+  register: self_uuid
+
+- debug:
+    var: self_uuid.stdout
+
+
+- name: run dmidecode to gather cpu
+  shell: dmidecode  -t processor | grep Version | cut -d' ' -f2- | sed 's/ //g' | sed 's/(.)//g'
+  register: dmidecode_cpu
+
+- debug:
+    var: dmidecode_cpu.stdout
+
+
+- name: run dmidecode to gather memory speed
+  shell: dmidecode  -t memory | grep "Configured Clock Speed" | uniq |  cut -d' ' -f4- | sed 's/ //g'
+  register: dmidecode_memory
+
+- debug:
+    var: dmidecode_memory.stdout
+
+
+- name: run dmidecode to gather system name
+  shell: 'dmidecode -t baseboard | grep "Manufacturer\|Product Name" | sed "s/.*: //g" |  sed "N;s/\n//g"'
+  register: dmidecode_system
+
+- debug:
+    var: dmidecode_system.stdout
+
+
+- name: set the flavor with the right hw capabilities
+  shell: >
+    openstack --os-auth-url {{ os_auth }} 
+    --os-project-name {{ admin_name }} 
+    --os-username {{ admin_name }} 
+    --os-password {{ admin_password }} 
+    --insecure 
+    baremetal node set 
+    --property capabilities=ironic_uuid:{{ self_uuid.stdout }},cpu:{{ dmidecode_cpu.stdout }},memory:{{ dmidecode_memory.stdout }},system:{{ dmidecode_system.stdout }}
+    {{ self_uuid.stdout }}
+  delegate_to: localhost

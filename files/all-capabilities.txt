@@ -1,0 +1,6 @@
+cpu:IntelCeleronCPUJ1900@1.99GHz
+ironic_uuid:22d9f6a1-0a70-4ead-ac88-f77218bc2124
+ironic_uuid:8fcbd529-c726-4af5-9919-f5a26200ab21
+ironic_uuid:baca2cce-5618-49a3-be9a-de6b9c81f16f
+memory:1333MHz
+system:ASRockJ1900D2Y

@@ -1,0 +1,50 @@
+---
+- name: Spawn Baremetal nodes for the discovery
+  hosts: localhost
+  vars_files:
+    - vars/vars.yml
+  vars:
+    state: present
+
+  roles:
+    - 110-ironic-nodes
+    - 111-discovery-flavor
+    - 112-discovery-port
+    - 112-discovery-port-facts
+    - 113-ironic-capabilities
+    - 114-discovery-boot
+    - 115-discovery-check-state
+    - 116-discovery-inventory
+
+- name: Gather inventory on BM nodes
+  hosts: discovery
+  become: true
+  vars_files:
+    - vars/vars.yml
+
+  roles:
+    - 125-dmidecode
+
+- name: Update Tower forms with learned capabilities
+  hosts: localhost
+  vars_files:
+    - vars/vars.yml
+  vars:
+    state: present
+
+  roles:
+    - 135-tower-forms
+
+- name: Destroy discovered nodes
+  hosts: localhost
+  vars_files:
+    - vars/vars.yml
+  vars:
+    state: absent
+
+  roles:
+    - 114-discovery-boot
+    - 112-discovery-port
+    - 111-discovery-flavor
+
+
