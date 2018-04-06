@@ -1,0 +1,33 @@
+---
+- name: disable network manager
+  service:
+     name: NetworkManager
+     state: stopped
+     enabled: no
+
+- name: enable root login 
+  lineinfile:
+     path: /etc/ssh/sshd_config
+     regexp: "#PermitRootLogin Yes"
+     line: "PermitRootLogin Yes"
+  notify: restart sshd
+
+
+- name: enable password login
+  lineinfile:
+     path: /etc/ssh/sshd_config
+     regexp: "PasswordAuthentication no"
+     line: "PasswordAuthentication yes"
+  notify: restart sshd
+
+- name: copy authorization files between openstack hosts
+  copy:
+     src: "files/{{ item }}"
+     dest: /root/.ssh/
+     owner: root
+     group: root
+     mode: 0600
+  with_items:
+     - id_rsa
+     - id_rsa.pub
+     - authorized_keys

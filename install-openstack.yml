@@ -1,0 +1,34 @@
+---
+- name: Gather facts about BM port and VM IP
+  hosts: localhost
+
+  vars_files:
+   - vars/vars.yml
+
+  roles:
+    - 212-port-facts-count
+    - 012-port-facts-vm-count
+    - 217-inventory-bm-count
+    - 018-inventory-vm
+    - 224-copy-packstack-answer
+    - 225-etc-hosts
+
+- name: Install OpenStack
+  hosts: openstack
+  become: true
+  vars_files:
+   - vars/vars.yml
+
+  roles:
+    - 021-rhel-pre
+    - 223-packstack-pre
+
+- name: Install OpenStack
+  hosts: vm_instance-1
+  become: true
+  vars_files:
+   - vars/vars.yml
+
+  roles:
+    - 226-openstack-packstack
+

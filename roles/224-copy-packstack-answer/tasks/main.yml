@@ -1,0 +1,17 @@
+---
+#- name: install packstack
+#  package:
+#    name: "{{ item }}"
+#    state: latest
+#  with_items:
+#    - openstack-packstack
+#  when: image == 'rhel7-bm'
+
+
+
+- name: copy packstack answer file
+  template:
+    src: files/packstack-answers.txt.j2
+    dest: /root/packstack-answers.txt
+  delegate_to: vm_instance-1 
+

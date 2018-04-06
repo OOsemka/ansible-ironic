@@ -1,0 +1,11 @@
+---
+
+- name: add baremetal to ansible inventory - inventory
+  add_host:
+     name: "Baremetal-{{item.ansible_facts.openstack_ports.0.fixed_ips.0.ip_address}}"
+     groups: openstack
+     ansible_host: "{{item.ansible_facts.openstack_ports.0.fixed_ips.0.ip_address}}"
+     ansible_user: "{{ cloud_user }}"
+     ansible_become: yes
+  with_items: "{{ bm_port.results }}"
+

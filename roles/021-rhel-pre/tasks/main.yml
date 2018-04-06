@@ -6,5 +6,20 @@
     dest: /etc/yum.repos.d/local.repo
   when: image == 'rhel7-bm'
 
+- name: adjust mtu in ifcfg-eth0
+  lineinfile:
+    path: /etc/sysconfig/network-scripts/ifcfg-eth0
+    regexp: '^MTU='
+    line: 'MTU=1500'
+  when: image == 'rhel7-bm'
+
+
+- name : stop network manager
+  service:
+    name: NetworkManager
+    state: stopped
+  when: image == 'rhel7-bm'
+
 - name: set the mtu to 1500
-  shell: "ip link set mtu 1500 dev eth0"
+  shell: "sudo ip link set mtu 1500 dev eth0"
+

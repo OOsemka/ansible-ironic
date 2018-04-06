@@ -1,0 +1,12 @@
+---
+- name: Boot VM to desired state
+  hosts: localhost
+  vars_files:
+    - vars/vars.yml
+  vars:
+    state: absent
+
+  roles:
+    - 016-instance-vm
+    - 012-port-vm-count
+

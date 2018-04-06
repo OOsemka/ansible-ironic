@@ -1,0 +1,24 @@
+---
+  - name: Ensure instance is "{{ state }}"
+    os_server:
+       auth:
+         auth_url: "{{ os_auth }}"
+         username: "{{ project_name }}"
+         password: "{{ project_password }}"
+         project_name: "{{ project_name }}"
+       state: "{{ state }}"
+       name: "VM-Instance{{ item }}-{{ test_name }}"
+       image: "{{ image }}"
+       key_name: "{{ keypair }}"
+       flavor: "{{ vm_flavor }}"
+       #auto_ip: no
+       security_groups: default
+       validate_certs: False
+       timeout: 600
+       nics:
+         - port-name: "VMport{{ item }}-{{ memory }}{{ cpu }}{{ system }}-{{ test_name }}"
+    async: 7200
+    poll: 0
+    register: vm_instance
+    with_sequence: count={{ vm_count }}
+

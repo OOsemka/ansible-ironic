@@ -1,0 +1,9 @@
+---
+
+
+- name: set up host name in /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ vm_port.results.0.ansible_facts.openstack_ports.0.fixed_ips.0.ip_address }} VM-Instance1-{{ test_name }}"
+  delegate_to: vm_instance-1
+

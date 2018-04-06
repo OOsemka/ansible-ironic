@@ -1,0 +1,69 @@
+---
+
+
+- name: Get epel rpm
+  get_url: url=https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm dest=/tmp/
+- name: uninstall any previous epels
+  yum:
+    name: epel-release
+    state: absent
+
+- name: install epel
+  shell: "yum -y install /tmp/epel-release-latest-7.noarch.rpm"
+
+
+- name: install packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - python-pip
+    - wget
+    - python-devel
+    - gcc
+    - gcc-c++
+    - kernel-devel
+
+#- name: get Perfkit
+#  get_url: 
+#    url: "{{ perfkit_url }}"
+#    dest=/tmp/
+
+
+#- name: create working directory for Perfkit
+#  file:
+#    path: /root/PerfKitBenchmarker
+#    state: directory
+#    mode: 0755
+
+
+- name: download and untar the Perfkit
+  unarchive:
+    src: "{{ perfkit_url }}"
+    dest: /root
+    remote_src: yes
+
+- name: whats the name of Perkit directory
+  shell: ls /root/ | grep PerfKitBenchmarker
+  register: perfkit_name
+
+- debug:
+    var: perfkit_name
+
+
+
+- name: run bunch of pip install commands
+  shell: "pip install {{ item }}"
+  with_items:
+    - "-r /root/{{ perfkit_name.stdout }}/perfkitbenchmarker/providers/openstack/requirements.txt"
+    - "six --upgrade"
+    - "openstacksdk --upgrade"
+    - "python-novaclient==7.1.0"
+
+
+- name: run perfkit test
+  shell: source /root/keystonerc && /root/"{{ perfkit_name.stdout }}"/pkb.py --cloud=OpenStack --machine_type=m1.small            --openstack_network=admin-public --benchmarks="{{ perfkit_bench }}"  --ignore_package_requirements
+
+
+
+

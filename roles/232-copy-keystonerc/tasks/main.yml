@@ -1,0 +1,7 @@
+---
+- name: copy keystonerc file
+  template:
+    src: files/keystonerc.j2
+    dest: /root/keystonerc
+  delegate_to: vm_instance-2
+

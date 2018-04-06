@@ -1,0 +1,8 @@
+---
+- name: set no security group for first VM - baby openstack controller
+  shell: "openstack --os-auth-url {{ os_auth }} --os-project-name {{ project_name }} --os-username {{ project_name }} --os-password {{ project_password }} --insecure port set --no-security-group VMport1-{{ memory }}{{ cpu }}{{ system }}-{{ test_name }}"
+
+
+- name: disable security on port for first VM - baby openstack controller
+  shell: "openstack --os-auth-url {{ os_auth }} --os-project-name {{ admin_name }} --os-username {{ admin_name }} --os-password {{ admin_password }} --insecure port set --disable-port-security VMport1-{{ memory }}{{ cpu }}{{ system }}-{{ test_name }}"
+

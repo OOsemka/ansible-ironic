@@ -19,6 +19,7 @@
   roles:
     - 021-rhel-pre
     - 025-phoronix-pre
+    - 021-rhel-pre
 
 
 - name: Execute test

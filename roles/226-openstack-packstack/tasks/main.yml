@@ -1,0 +1,47 @@
+---
+
+
+- name: install packstack
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - openstack-packstack
+    - crudini
+    - wget
+  when: image == 'rhel7-bm'
+  #delegate_to: vm_instance-{{ vm_port.results.0.ansible_facts.openstack_ports.0.fixed_ips.0.ip_address }}
+
+- name: deploy packstack openstack
+  shell: packstack --answer-file=/root/packstack-answers.txt
+  #delegate_to: vm_instance-{{ vm_port.results.0.ansible_facts.openstack_ports.0.fixed_ips.0.ip_address }}
+
+- name: enable isolated metadata .. in order to get metadata working for provider networks
+  shell: crudini --set /etc/neutron/dhcp_agent.ini DEFAULT enable_isolated_metadata True
+
+- name: restart openstack dhcp service
+  service:
+    name: neutron-dhcp-agent
+    state: restarted
+
+- name: Download ubuntu image (Perfkit requirement)
+  get_url:
+    url: http://cloud-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img
+    dest: /tmp/trusty-server-cloudimg-amd64-disk1.img
+    mode: 0440
+
+- name: Source keystonerc and upload ubuntu image to glance
+  shell: source /root/keystonerc_admin && openstack image create --container-format bare --disk-format qcow2 --file /tmp/trusty-server-cloudimg-amd64-disk1.img --public ubuntu-14.04
+
+- name: Create External network
+  shell: source /root/keystonerc_admin && neutron net-create admin-public  --provider:physical_network=physnet1  --provider:network_type=flat --router:external --shared
+
+- name: Create External subnet
+  shell: source /root/keystonerc_admin && neutron subnet-create admin-public "{{ perfkit_cidr }}" --name admin-public-sub --allocation-pool start="{{ perfkit_ip_start }}",end="{{ perfkit_ip_end }}" --gateway "{{ perfkit_gateway }}" --dns-nameserver "{{ perfkit_dns }}"
+
+- name: open ssh port
+  shell: source /root/keystonerc_admin && nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
+
+- name: open icmp
+  shell: source /root/keystonerc_admin && nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
+

@@ -1,0 +1,9 @@
+unset OS_SERVICE_TOKEN
+    export OS_USERNAME=admin
+    export OS_PASSWORD={{ project_password }}
+    export OS_AUTH_URL=http://{{ vm_port.results.0.ansible_facts.openstack_ports.0.fixed_ips.0.ip_address }}:5000/v2.0
+    export PS1='[\u@\h \W(keystone_admin)]\$ '
+    
+export OS_TENANT_NAME=admin
+export OS_REGION_NAME=RegionOne
+

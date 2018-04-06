@@ -87,7 +87,7 @@
       "default": "", 
       "max": null, 
       "required": false, 
-      "choices": "22d9f6a1-0a70-4ead-ac88-f77218bc2124\n8fcbd529-c726-4af5-9919-f5a26200ab21\nbaca2cce-5618-49a3-be9a-de6b9c81f16f",
+      "choices": "2531f280-9193-40fb-bdfa-a125d8355757\n43e66594-7351-4408-a08d-a733b8014db0\na217eb6e-a213-46be-9d7a-433a0e1973e5",
       "variable": "ironic_uuid", 
       "question_name": "Node uuid", 
       "type": "multiplechoice"

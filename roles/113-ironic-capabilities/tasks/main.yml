@@ -3,3 +3,6 @@
     shell: "openstack --os-auth-url {{ os_auth }} --os-project-name {{ admin_name }} --os-username {{ admin_name }} --os-password {{ admin_password }} --insecure baremetal node set --property capabilities=ironic_uuid:{{ item }} {{ item }}"
     with_items: "{{ ironic_nodes.stdout_lines }}"
 
+  - pause:
+      seconds: 10
+

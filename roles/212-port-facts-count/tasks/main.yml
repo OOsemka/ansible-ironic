@@ -6,9 +6,10 @@
          username: "{{ project_name }}"
          password: "{{ project_password }}"
          project_name: "{{ project_name }}"
-       port: "port-{{ memory }}{{ cpu }}{{ system }}-{{ test_name }}" 
+       port: "BMport{{ item }}-{{ memory }}{{ cpu }}{{ system }}-{{ test_name }}" 
        validate_certs: False
-    register: openstack_port
+    register: bm_port
+    with_sequence: count={{ count }}
 
   - debug:
-       var: openstack_port
+       var: bm_port

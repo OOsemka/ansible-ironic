@@ -1,0 +1,21 @@
+---
+- name: Gather facts about BM port and VM IP
+  hosts: localhost
+
+  vars_files:
+   - vars/vars.yml
+
+  roles:
+    - 012-port-facts-vm-count
+    - 018-inventory-vm
+    - 232-copy-keystonerc
+
+- name: Install Perfkit
+  hosts: vm_instance-2
+  become: true
+  vars_files:
+   - vars/vars.yml
+
+  roles:
+    - 233-perfkit
+

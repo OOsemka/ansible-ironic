@@ -1,12 +1,25 @@
 ---
 admin_name: admin
-admin_password: changeme
+admin_password: Passw0rd
 os_auth: https://openstack.home.lab:13000/v2.0
 project_name: amd
-project_password: changeme
+project_password: Passw0rd
 keypair: awx
 baremetal_network: baremetal
+
+#items needed for discovery use case
 discovery_project: discovery
-discovery_password: changeme
+discovery_password: Passw0rd
 discovery_image: rhel7-bm
 discovery_cloud_user: cloud-user
+baremetal_network: baremetal
+
+#items needed for perfkit use case
+vm_flavor: large
+perfkit_cidr: "172.31.10.0/24"
+perfkit_gateway: "172.31.10.254"
+perfkit_dns: "172.31.8.1"
+perfkit_ip_start: "172.31.10.200"
+perfkit_ip_end: "172.31.10.239"
+perfkit_url: "https://github.com/GoogleCloudPlatform/PerfKitBenchmarker/archive/v1.13.0.tar.gz"
+perfkit_bench: "iperf"
